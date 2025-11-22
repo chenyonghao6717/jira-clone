@@ -23,6 +23,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { FormFieldWrapper } from "@/features/auth/components/form-field-wrapper";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "Required"),
@@ -44,72 +45,54 @@ const SignUpCard = () => {
     console.log(values);
   };
 
+  const description = (
+    <CardDescription className="flex justify-center whitespace-pre-wrap px-7">
+      <p>
+        By signing up, you agree to our{" "}
+        <Link href="/privacy" className="text-blue-700">
+          <span>Privacy Policy</span>
+        </Link>{" "}
+        and{" "}
+        <Link href="/terms" className="text-blue-700">
+          <span>Terms of service</span>
+        </Link>
+      </p>
+    </CardDescription>
+  );
+
+  const header = (
+    <CardHeader className="flex items-center justify-center text-center p-7">
+      <CardTitle className="text-2xl ">Sign up</CardTitle>
+      {description}
+    </CardHeader>
+  );
+
   return (
     <Card className="w-full h-full md:w-[550px] border-none shadow-none">
-      <CardHeader className="flex items-center justify-center text-center p-7">
-        <CardTitle className="text-2xl ">Sign up</CardTitle>
-      </CardHeader>
-      <CardDescription className="flex justify-center whitespace-pre-wrap px-7">
-        <p>
-          By signing up, you agree to our{" "}
-          <Link href="/privacy" className="text-blue-700">
-            <span>Privacy Policy</span>
-          </Link>{" "}
-          and{" "}
-          <Link href="/terms" className="text-blue-700">
-            <span>Terms of service</span>
-          </Link>
-        </p>
-      </CardDescription>
+      {header}
       <div className="px-7 mb-1">
         <DottedSeparator />
       </div>
       <CardContent className="p-7">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            <FormFieldWrapper
               name="name"
               control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input {...field} type="text" placeholder="Enter name" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="text"
+              placeholder="Enter name"
             />
-            <FormField
+            <FormFieldWrapper
               name="email"
               control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder="Enter email address"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="email"
+              placeholder="Enter email"
             />
-            <FormField
+            <FormFieldWrapper
               name="password"
               control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="Enter passowrd"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="password"
+              placeholder="Enter password"
             />
             <Button size="lg" className="w-full ">
               Login

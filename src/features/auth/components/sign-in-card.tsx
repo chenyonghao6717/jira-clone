@@ -1,37 +1,29 @@
 import DottedSeparator from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import Link from "next/link";
-
-const formSchema = z.object({
-  email: z.email(),
-  password: z.string().min(8, "Minimun 8 characters"),
-});
+import { loginSchema, LoginSchemaType } from "@/features/auth/schemas";
+import { useLogin } from "@/features/auth/api/use-login";
+import { FormFieldWrapper } from "@/features/auth/components/form-field-wrapper";
 
 const SignInCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useLogin();
+
+  const form = useForm<LoginSchemaType>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = (values: LoginSchemaType) => {
+    mutate({ json: values });
   };
 
   return (
@@ -45,36 +37,17 @@ const SignInCard = () => {
       <CardContent className="p-7">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            <FormFieldWrapper
               name="email"
+              type="email"
+              placeholder="Enter email address"
               control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="email"
-                      placeholder="Enter email address"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
             />
-            <FormField
+            <FormFieldWrapper
               name="password"
+              type="password"
+              placeholder="Enter password"
               control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="Enter password"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
             />
             <Button size="lg" className="w-full ">
               Login
