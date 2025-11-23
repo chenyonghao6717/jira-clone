@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import Link from "next/link";
 import { loginSchema, LoginSchemaType } from "@/features/auth/schemas";
-import { useLogin } from "@/features/auth/api/use-login";
+import { useLogin } from "@/components/clients/use-login";
 import { FormFieldWrapper } from "@/features/auth/components/form-field-wrapper";
 
 const SignInCard = () => {

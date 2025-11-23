@@ -8,9 +8,7 @@ interface SignInPageProps {
 
 const SignInPage = ({ children }: SignInPageProps) => {
   return (
-    <div>
       <SignInCard />
-    </div>
   );
 };
 
